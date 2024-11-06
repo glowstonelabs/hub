@@ -30,7 +30,7 @@ class AutoAnnouncements {
                 if (Bukkit.getOnlinePlayers().isNotEmpty()) {
                     // Select a random category and its corresponding messages
                     val randomCategory = announcements.keys.randomOrNull()
-                    val randomAnnouncement = randomCategory?.let { announcements[it]?.randomOrNull() }
+                    val randomAnnouncement = randomCategory?.let { announcements[it]?.joinToString("\n") }
 
                     // Broadcast the announcement if it exists
                     randomAnnouncement?.let { Bukkit.broadcast(it.mm()) }
