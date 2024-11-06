@@ -1,0 +1,4 @@
+name: hub
+version: '1.0-SNAPSHOT'
+main: wtf.amari.hub.Hub
+api-version: '1.21'
