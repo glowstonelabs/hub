@@ -1,0 +1,12 @@
+messages:
+  join: "&f[<#1db4d5>+&f] <#1db4d5>%player%"
+  quit: ""
+  firstjoin: "<#1db4d5>│ &rWelcome <#1db4d5>%player% &fto <#1db4d5>&l&nSERVERNAME&r for the very first time!"
+  welcome-messages:
+    - " "
+    - " &fWelcome to <#1db4d5>&lSERVERNAME&r!"
+    - " "
+    - "<#1d90d5>│ &rIP: <#1db4d5>play.SERVERNAME.net"
+    - "<#1d90d5>│ &rStore: <#1db4d5>store.SERVERNAME.net"
+    - "<#1d90d5>│ &rDiscord: <#1db4d5>discord.SERVERNAME.net"
+    - " "
