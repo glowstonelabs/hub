@@ -1,3 +1,5 @@
+settings:
+  drop-items: false
 messages:
   join: "&f[<#1db4d5>+&f] <#1db4d5>%player%"
   quit: ""
@@ -10,6 +12,7 @@ messages:
     - "<#1d90d5>│ &rStore: <#1db4d5>store.SERVERNAME.net"
     - "<#1d90d5>│ &rDiscord: <#1db4d5>discord.SERVERNAME.net"
     - " "
+  item-drop-message: "&cYou are not allowed to drop items!"
 announcements:
   Discord:
     - "<#1d90d5>│ <#1db4d5>&lWANT TO STAY UP TO DATE?&r"

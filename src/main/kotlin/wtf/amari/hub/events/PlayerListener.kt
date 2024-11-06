@@ -53,6 +53,10 @@ class PlayerListener : Listener {
 
     @EventHandler
     fun onPlayerDrop(event: PlayerDropItemEvent) {
-        event.isCancelled = true
+        val config = Hub.instance.config
+        if (!config.getBoolean("settings.drop-items")) {
+            config.getString("messages.item-drop-message")?.let { event.player.sendMessage(it.mm()) }
+            event.isCancelled = true
+        }
     }
 }
