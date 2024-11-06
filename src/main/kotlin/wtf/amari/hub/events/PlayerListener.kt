@@ -4,6 +4,7 @@ import org.bukkit.Bukkit.broadcast
 import org.bukkit.Bukkit.getScheduler
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import wtf.amari.hub.Hub
@@ -48,5 +49,10 @@ class PlayerListener : Listener {
         event.quitMessage(
             if (quitMessage.isNullOrEmpty()) null else quitMessage.replace("%player%", event.player.name).mm()
         )
+    }
+
+    @EventHandler
+    fun onPlayerDrop(event: PlayerDropItemEvent) {
+        event.isCancelled = true
     }
 }
