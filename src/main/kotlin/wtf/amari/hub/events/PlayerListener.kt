@@ -4,6 +4,7 @@ import org.bukkit.Bukkit.broadcast
 import org.bukkit.Bukkit.getScheduler
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import wtf.amari.hub.Hub
@@ -19,7 +20,7 @@ class PlayerListener : Listener {
         val config = instance.config
 
         // Send join message
-        config.getString("messages.join")?.let {
+        config.getString("join-messages.join")?.let {
             event.joinMessage(it.replace("%player%", player.name).mm())
         }
 
@@ -35,7 +36,7 @@ class PlayerListener : Listener {
 
         // Send welcome messages
         scheduler.runTaskLater(instance, Runnable {
-            config.getStringList("messages.welcome-messages").forEach { message ->
+            config.getStringList("join-messages.welcome-messages").forEach { message ->
                 player.sendMessage(message.mm())
             }
         }, 20L)
@@ -44,9 +45,18 @@ class PlayerListener : Listener {
     @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
         val config = Hub.instance.config
-        val quitMessage = config.getString("messages.quit")
+        val quitMessage = config.getString("join-messages.quit")
         event.quitMessage(
             if (quitMessage.isNullOrEmpty()) null else quitMessage.replace("%player%", event.player.name).mm()
         )
+    }
+
+    @EventHandler
+    fun onPlayerDrop(event: PlayerDropItemEvent) {
+        val config = Hub.instance.config
+        if (!config.getBoolean("settings.drop-items")) {
+            config.getString("items.drop-message")?.let { event.player.sendMessage(it.mm()) }
+            event.isCancelled = true
+        }
     }
 }

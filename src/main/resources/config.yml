@@ -1,4 +1,6 @@
-messages:
+settings:
+  drop-items: false
+join-messages:
   join: "&f[<#1db4d5>+&f] <#1db4d5>%player%"
   quit: ""
   firstjoin: "<#1db4d5>│ &rWelcome <#1db4d5>%player% &fto <#1db4d5>&l&nSERVERNAME&r for the very first time!"
@@ -10,3 +12,19 @@ messages:
     - "<#1d90d5>│ &rStore: <#1db4d5>store.SERVERNAME.net"
     - "<#1d90d5>│ &rDiscord: <#1db4d5>discord.SERVERNAME.net"
     - " "
+announcements:
+  Discord:
+    - "<#1d90d5>│ <#1db4d5>&lWANT TO STAY UP TO DATE?&r"
+    - "<#1d90d5>│ &r"
+    - "<#1d90d5>│ &rbe sure to join our discord server!"
+    - "<#1d90d5>│ &rIf you want to stay up to date with the latest news,"
+    - "<#1d90d5>│ &r"
+    - "<#1d90d5>│ &r<#1db4d5>&ndiscord.domain.com"
+  Sale:
+    - "<#1d90d5>│ <#1db4d5>&lSALE&r"
+    - "<#1d90d5>│ &r"
+    - "<#1d90d5>│ &rWe are currently having a sale on our store!"
+    - "<#1d90d5>│ &r"
+    - "<#1d90d5>│ &r<#1db4d5>&nstore.domain.com"
+items:
+  drop-message: "&cYou are not allowed to drop items!"
