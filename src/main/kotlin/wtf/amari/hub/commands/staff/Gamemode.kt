@@ -6,7 +6,7 @@
     permissionMessage = "You need hub.staff.gamemode to do that!"
 )
 
-package wtf.amari.hub.staff
+package wtf.amari.hub.commands.staff
 
 import me.honkling.commando.common.annotations.Command
 import org.bukkit.Bukkit
@@ -35,10 +35,6 @@ fun gamemode(executor: Player, mode: String) {
  */
 fun gamemode(executor: Player, mode: String, targetName: String?) {
     val target = targetName?.let { Bukkit.getPlayer(it) } ?: executor
-    if (target == null) {
-        executor.sendMessage("&cPlayer not found.".mm())
-        return
-    }
     val gameMode = getGameMode(mode, executor) ?: return
     target.gameMode = gameMode
     executor.sendMessage("&aSet gamemode of &c${target.name} &ato &c${gameMode.name.lowercase()}&a!".mm())

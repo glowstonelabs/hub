@@ -7,7 +7,7 @@
     permissionMessage = "You need hub.staff.clearchat to do that!"
 )
 
-package wtf.amari.hub.staff
+package wtf.amari.hub.commands.staff
 
 import me.honkling.commando.common.annotations.Command
 import org.bukkit.Bukkit.broadcast

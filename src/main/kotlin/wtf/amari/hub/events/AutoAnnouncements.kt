@@ -11,6 +11,7 @@ class AutoAnnouncements {
     private val announcements = mapOf(
         "Discord" to listOf(
             "<#1d90d5>│ <#1db4d5>&lWANT TO STAY UP TO DATE?&r",
+            "<#1d90d5>│ &r",
             "<#1d90d5>│ &rbe sure to join our discord server!",
             "<#1d90d5>│ &rIf you want to stay up to date with the latest news,",
             "<#1d90d5>│ &r",
