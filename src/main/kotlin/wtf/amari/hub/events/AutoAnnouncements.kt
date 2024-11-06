@@ -7,18 +7,13 @@ import wtf.amari.hub.utils.mm
 
 class AutoAnnouncements {
 
+    private val config = Hub.instance.config
+
     // Map of announcement categories to their respective messages
-    private val announcements = mapOf(
-        "Discord" to listOf(
-            "<#1d90d5>│ <#1db4d5>&lWANT TO STAY UP TO DATE?&r",
-            "<#1d90d5>│ &r",
-            "<#1d90d5>│ &rbe sure to join our discord server!",
-            "<#1d90d5>│ &rIf you want to stay up to date with the latest news,",
-            "<#1d90d5>│ &r",
-            "<#1d90d5>│ &r<#1db4d5>&ndiscord.domain.com"
-        )
-        // Add more categories and messages as needed
-    )
+    private val announcements: Map<String, List<String>> =
+        config.getConfigurationSection("announcements")?.getKeys(false)?.associateWith { category ->
+            config.getStringList("announcements.$category")
+        } ?: emptyMap()
 
     init {
         startAnnouncements()
@@ -35,7 +30,7 @@ class AutoAnnouncements {
                 if (Bukkit.getOnlinePlayers().isNotEmpty()) {
                     // Select a random category and its corresponding messages
                     val randomCategory = announcements.keys.randomOrNull()
-                    val randomAnnouncement = randomCategory?.let { announcements[it]?.joinToString("\n") }
+                    val randomAnnouncement = randomCategory?.let { announcements[it]?.randomOrNull() }
 
                     // Broadcast the announcement if it exists
                     randomAnnouncement?.let { Bukkit.broadcast(it.mm()) }
