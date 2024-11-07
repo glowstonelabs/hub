@@ -21,9 +21,7 @@ import wtf.amari.hub.utils.mm
  * @param mode The desired gamemode.
  */
 fun gamemode(executor: Player, mode: String) {
-    val gameMode = getGameMode(mode, executor) ?: return
-    executor.gameMode = gameMode
-    executor.sendMessage("&aGamemode set to &c${gameMode.name.lowercase()}&a!".mm())
+    gamemode(executor, mode, null)
 }
 
 /**
@@ -35,7 +33,11 @@ fun gamemode(executor: Player, mode: String) {
  */
 fun gamemode(executor: Player, mode: String, targetName: String?) {
     val target = targetName?.let { Bukkit.getPlayer(it) } ?: executor
-    val gameMode = getGameMode(mode, executor) ?: return
+    val gameMode = getGameMode(mode)
+    if (gameMode == null) {
+        executor.sendMessage("&cInvalid gamemode.".mm())
+        return
+    }
     target.gameMode = gameMode
     executor.sendMessage("&aSet gamemode of &c${target.name} &ato &c${gameMode.name.lowercase()}&a!".mm())
 }
@@ -44,18 +46,14 @@ fun gamemode(executor: Player, mode: String, targetName: String?) {
  * Retrieves the GameMode enum based on the provided mode string.
  *
  * @param mode The desired gamemode as a string.
- * @param executor The player executing the command.
  * @return The corresponding GameMode enum or null if invalid.
  */
-private fun getGameMode(mode: String, executor: Player): GameMode? {
+private fun getGameMode(mode: String): GameMode? {
     return when (mode.lowercase()) {
         "adventure", "a" -> GameMode.ADVENTURE
         "creative", "c" -> GameMode.CREATIVE
         "spectator", "sp" -> GameMode.SPECTATOR
         "survival", "s" -> GameMode.SURVIVAL
-        else -> {
-            executor.sendMessage("&cInvalid gamemode.".mm())
-            null
-        }
+        else -> null
     }
 }
