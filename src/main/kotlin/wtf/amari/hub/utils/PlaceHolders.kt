@@ -19,6 +19,7 @@ class PlaceHolders : PlaceholderExpansion() {
         if (player == null) return ""
         return when (identifier) {
             "player" -> (player.name)
+            "test" -> (player.name)
             else -> ""
         }
     }
