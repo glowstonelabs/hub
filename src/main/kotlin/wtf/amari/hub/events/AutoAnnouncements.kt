@@ -1,18 +1,18 @@
 package wtf.amari.hub.events
 
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
 import wtf.amari.hub.Hub
 import wtf.amari.hub.utils.mm
 
 /**
- * Handles automatic announcements in the server.
+ * Handles automatic announcements for the server.
  */
 class AutoAnnouncements {
 
-    private val config = Hub.instance.config
+    private val config = Hub.langConfig
 
-    // Map of announcement categories to their respective messages
     private val announcements: Map<String, List<String>> =
         config.getConfigurationSection("announcements")?.getKeys(false)?.associateWith { category ->
             config.getStringList("announcements.$category")
@@ -24,7 +24,9 @@ class AutoAnnouncements {
     }
 
     /**
-     * Validates the configuration to ensure all necessary sections are present.
+     * Validates the configuration to ensure all required sections and values are present.
+     *
+     * @throws IllegalArgumentException if the configuration is invalid.
      */
     private fun validateConfig() {
         require(config.isConfigurationSection("announcements")) { "Announcements section is missing in the config." }
@@ -34,26 +36,42 @@ class AutoAnnouncements {
     }
 
     /**
-     * Starts the announcement task that broadcasts a random announcement
-     * from a random category every 5 minutes.
+     * Starts the announcement task that periodically sends random announcements to online players.
      */
     private fun startAnnouncements() {
         object : BukkitRunnable() {
             override fun run() {
-                // Check if there are any players online
                 if (Bukkit.getOnlinePlayers().isNotEmpty()) {
-                    // Select a random category and its corresponding messages
                     val randomCategory = announcements.keys.randomOrNull()
-                    val randomAnnouncement = randomCategory?.let { announcements[it]?.randomOrNull() }
+                    val randomAnnouncement = randomCategory?.let { announcements[it]?.joinToString("\n") }
 
-                    // Broadcast the announcement if it exists
                     randomAnnouncement?.let { announcement ->
+                        val clickableAnnouncement = formatAnnouncement(announcement)
                         Bukkit.getOnlinePlayers().forEach { player ->
-                            player.sendMessage(announcement.mm())
+                            player.sendMessage(clickableAnnouncement)
                         }
                     }
                 }
             }
-        }.runTaskTimer(Hub.instance, 0L, 6000L) // 6000L ticks = 5 minutes
+        }.runTaskTimer(Hub.instance, 0L, 6000L)
+    }
+
+    /**
+     * Formats the announcement string by replacing color/format codes and URLs.
+     *
+     * @param announcement The raw announcement string.
+     * @return The formatted announcement string.
+     */
+    private fun formatAnnouncement(announcement: String): Component {
+        return announcement
+            .replace("&r", "<reset>")
+            .replace("&n", "<u>") // Handle color/format codes
+            .replace(
+                Regex("""[a-zA-Z0-9.-]+(?:\.[a-zA-Z]{2,})(/[a-zA-Z0-9._~-]*)?""")
+            ) { matchResult ->
+                val url = matchResult.value
+                "<click:open_url:'https://$url'><#1d90d5><u>$url</u></click>"
+            }.replace("\n", "<br>") // Fix newlines
+            .mm()
     }
 }
