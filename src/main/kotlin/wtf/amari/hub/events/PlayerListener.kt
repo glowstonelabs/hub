@@ -1,13 +1,18 @@
 package wtf.amari.hub.events
 
+import me.tech.mcchestui.utils.openGUI
 import org.bukkit.Bukkit.broadcast
 import org.bukkit.Bukkit.getScheduler
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerDropItemEvent
+import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import wtf.amari.hub.Hub
+import wtf.amari.hub.guis.serverSelectorGUI
+import wtf.amari.hub.managers.ItemGiverManager
 import wtf.amari.hub.utils.mm
 
 class PlayerListener : Listener {
@@ -18,7 +23,9 @@ class PlayerListener : Listener {
         val scheduler = getScheduler()
         val instance = Hub.instance
         val config = instance.config
-
+        val itemGiverManager = ItemGiverManager(Hub.instance)
+        // give server selector
+        itemGiverManager.giveServerSelector(player)
         // Send join message
         config.getString("join-messages.join")?.let {
             event.joinMessage(it.replace("%player%", player.name).mm())
@@ -57,6 +64,17 @@ class PlayerListener : Listener {
         if (!config.getBoolean("settings.drop-items")) {
             config.getString("items.drop-message")?.let { event.player.sendMessage(it.mm()) }
             event.isCancelled = true
+        }
+    }
+
+    @EventHandler
+    fun onRightClick(event: PlayerInteractEvent) {
+        val config = Hub.instance.config
+        val player = event.player
+        val item = player.inventory.itemInMainHand
+        if ((event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) && item.type.name == "COMPASS"
+        ) {
+            player.openGUI(serverSelectorGUI())
         }
     }
 }

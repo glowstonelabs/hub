@@ -1,5 +1,12 @@
 settings:
   drop-items: false
+serverSelector:
+  name: "<#1db4d5>&l✦ &fServer Selector"
+  lore:
+    - " "
+    - "&7LOREM IP SUM"
+    - " "
+    - "&e&l➜ &eRight-Click"
 join-messages:
   join: "&f[<#1db4d5>+&f] <#1db4d5>%player%"
   quit: ""
