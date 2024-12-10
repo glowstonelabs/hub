@@ -8,8 +8,11 @@ import org.bukkit.Material
 import wtf.amari.hub.Hub
 import wtf.amari.hub.utils.mm
 
-
-public fun serverSelectorGUI(): GUI {
+/**
+ * Creates the server selector GUI.
+ * @return The server selector GUI.
+ */
+fun serverSelectorGUI(): GUI {
     return gui(
         plugin = Hub.instance,
         title = "<#36393F>&lServerSelector".mm(),
