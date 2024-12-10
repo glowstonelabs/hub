@@ -1,5 +1,6 @@
 package wtf.amari.hub.events
 
+import kotlinx.coroutines.*
 import me.tech.mcchestui.utils.openGUI
 import org.bukkit.Bukkit.broadcast
 import org.bukkit.Bukkit.getScheduler
@@ -15,8 +16,17 @@ import wtf.amari.hub.guis.serverSelectorGUI
 import wtf.amari.hub.managers.ItemGiverManager
 import wtf.amari.hub.utils.mm
 
+/**
+ * Listener for player-related events.
+ */
 class PlayerListener : Listener {
 
+    private val scope = CoroutineScope(Dispatchers.Default + Job())
+
+    /**
+     * Handles player join events.
+     * @param event The player join event.
+     */
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
         val player = event.player
@@ -24,8 +34,10 @@ class PlayerListener : Listener {
         val instance = Hub.instance
         val config = instance.config
         val itemGiverManager = ItemGiverManager(Hub.instance)
-        // give server selector
+
+        // Give server selector
         itemGiverManager.giveServerSelector(player)
+
         // Send join message
         config.getString("join-messages.join")?.let {
             event.joinMessage(it.replace("%player%", player.name).mm())
@@ -34,7 +46,7 @@ class PlayerListener : Listener {
         // Handle first-time player join
         if (!player.hasPlayedBefore()) {
             scheduler.runTaskLater(instance, Runnable {
-                config.getString("messages.firstjoin")?.let {
+                config.getString("join-messages.firstjoin")?.let {
                     broadcast("".mm())
                     broadcast(it.replace("%player%", player.name).mm())
                 }
@@ -49,6 +61,10 @@ class PlayerListener : Listener {
         }, 20L)
     }
 
+    /**
+     * Handles player quit events.
+     * @param event The player quit event.
+     */
     @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
         val config = Hub.instance.config
@@ -58,6 +74,10 @@ class PlayerListener : Listener {
         )
     }
 
+    /**
+     * Handles player drop item events.
+     * @param event The player drop item event.
+     */
     @EventHandler
     fun onPlayerDrop(event: PlayerDropItemEvent) {
         val config = Hub.instance.config
@@ -67,14 +87,24 @@ class PlayerListener : Listener {
         }
     }
 
+    /**
+     * Handles player interact events.
+     * @param event The player interact event.
+     */
     @EventHandler
     fun onRightClick(event: PlayerInteractEvent) {
         val config = Hub.instance.config
         val player = event.player
         val item = player.inventory.itemInMainHand
-        if ((event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) && item.type.name == "COMPASS"
-        ) {
+        if ((event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) && item.type.name == "COMPASS") {
             player.openGUI(serverSelectorGUI())
         }
+    }
+
+    /**
+     * Clean up resources when the listener is no longer needed.
+     */
+    fun cleanup() {
+        scope.cancel()
     }
 }
