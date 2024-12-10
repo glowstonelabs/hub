@@ -5,6 +5,9 @@ import org.bukkit.scheduler.BukkitRunnable
 import wtf.amari.hub.Hub
 import wtf.amari.hub.utils.mm
 
+/**
+ * Handles automatic announcements in the server.
+ */
 class AutoAnnouncements {
 
     private val config = Hub.instance.config
@@ -16,7 +19,18 @@ class AutoAnnouncements {
         } ?: emptyMap()
 
     init {
+        validateConfig()
         startAnnouncements()
+    }
+
+    /**
+     * Validates the configuration to ensure all necessary sections are present.
+     */
+    private fun validateConfig() {
+        require(config.isConfigurationSection("announcements")) { "Announcements section is missing in the config." }
+        announcements.forEach { (category, messages) ->
+            require(messages.isNotEmpty()) { "Category '$category' has no messages." }
+        }
     }
 
     /**
@@ -30,10 +44,14 @@ class AutoAnnouncements {
                 if (Bukkit.getOnlinePlayers().isNotEmpty()) {
                     // Select a random category and its corresponding messages
                     val randomCategory = announcements.keys.randomOrNull()
-                    val randomAnnouncement = randomCategory?.let { announcements[it]?.joinToString("\n") }
+                    val randomAnnouncement = randomCategory?.let { announcements[it]?.randomOrNull() }
 
                     // Broadcast the announcement if it exists
-                    randomAnnouncement?.let { Bukkit.broadcast(it.mm()) }
+                    randomAnnouncement?.let { announcement ->
+                        Bukkit.getOnlinePlayers().forEach { player ->
+                            player.sendMessage(announcement.mm())
+                        }
+                    }
                 }
             }
         }.runTaskTimer(Hub.instance, 0L, 6000L) // 6000L ticks = 5 minutes
