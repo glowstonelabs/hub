@@ -12,6 +12,8 @@ import me.honkling.commando.common.annotations.Command
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
+import org.bukkit.scheduler.BukkitRunnable
+import wtf.amari.hub.Hub
 import wtf.amari.hub.utils.mm
 
 /**
@@ -32,14 +34,18 @@ fun gamemode(executor: Player, mode: String) {
  * @param targetName The name of the target player.
  */
 fun gamemode(executor: Player, mode: String, targetName: String?) {
-    val target = targetName?.let { Bukkit.getPlayer(it) } ?: executor
-    val gameMode = getGameMode(mode)
-    if (gameMode == null) {
-        executor.sendMessage("&cInvalid gamemode.".mm())
-        return
-    }
-    target.gameMode = gameMode
-    executor.sendMessage("&aSet gamemode of &c${target.name} &ato &c${gameMode.name.lowercase()}&a!".mm())
+    object : BukkitRunnable() {
+        override fun run() {
+            val target = targetName?.let { Bukkit.getPlayer(it) } ?: executor
+            val gameMode = getGameMode(mode)
+            if (gameMode == null) {
+                executor.sendMessage("&cInvalid gamemode.".mm())
+                return
+            }
+            target.gameMode = gameMode
+            executor.sendMessage("&aSet gamemode of &c${target.name} &ato &c${gameMode.name.lowercase()}&a!".mm())
+        }
+    }.runTaskAsynchronously(Hub.instance)
 }
 
 /**
