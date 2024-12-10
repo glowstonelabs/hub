@@ -9,7 +9,11 @@ import wtf.amari.hub.events.PlayerListener
 import wtf.amari.hub.utils.PlaceHolders
 import wtf.amari.hub.utils.fancyLog
 
+/**
+ * Main class for the Hub plugin.
+ */
 class Hub : JavaPlugin() {
+
     companion object {
         lateinit var instance: Hub
             private set
@@ -33,6 +37,9 @@ class Hub : JavaPlugin() {
         fancyLog("Hub plugin has been disabled.", "ERROR")
     }
 
+    /**
+     * Initializes the plugin by setting up configuration, registering commands, events, and placeholders.
+     */
     private fun initializePlugin() {
         setupConfig()
         registerCommands()
@@ -41,6 +48,9 @@ class Hub : JavaPlugin() {
         AutoAnnouncements()
     }
 
+    /**
+     * Registers commands using the SpigotCommandManager.
+     */
     private fun registerCommands() {
         val commandManager = SpigotCommandManager(this)
         try {
@@ -51,6 +61,9 @@ class Hub : JavaPlugin() {
         }
     }
 
+    /**
+     * Registers event listeners.
+     */
     private fun registerEvents() {
         listeners.forEach { listenerSupplier ->
             try {
@@ -63,6 +76,9 @@ class Hub : JavaPlugin() {
         }
     }
 
+    /**
+     * Sets up the configuration by creating the data folder, saving the default config, and reloading the config.
+     */
     private fun setupConfig() {
         dataFolder.mkdirs()
         saveDefaultConfig()
@@ -70,6 +86,9 @@ class Hub : JavaPlugin() {
         fancyLog("Config loaded successfully.", "SUCCESS")
     }
 
+    /**
+     * Registers PlaceholderAPI placeholders if the plugin is available.
+     */
     private fun registerPlaceholders() {
         server.pluginManager.getPlugin("PlaceholderAPI")?.let {
             PlaceHolders().register()
