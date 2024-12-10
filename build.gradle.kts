@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.1.0"
     id("com.gradleup.shadow") version "8.3.5"
+    id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
 group = "wtf.amari"
@@ -65,7 +66,9 @@ tasks {
             expand(mapOf("version" to version))
         }
     }
-
+    runServer {
+        minecraftVersion("1.21.3")
+    }
     shadowJar {
         exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
         exclude("**/unnecessary/**", "**/*.md", "**/README*")

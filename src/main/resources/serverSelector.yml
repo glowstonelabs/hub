@@ -5,3 +5,18 @@ serverSelector:
     - "&7LOREM IP SUM"
     - " "
     - "&e&l➜ &eRight-Click"
+menu:
+  rows: 3
+  title: "<#1db4d5>&l✦ &fServer Selector"
+
+server-1:
+  slot: 11
+  name: "&b&lServer 1"
+  material: GRASS_BLOCK
+  command: "server server1"
+  message: "&aConnecting to Server 1..."
+  lore:
+    - " "
+    - "&7LOREM IP SUM"
+    - " "
+    - "&e&l➜ &eRight-Click"
