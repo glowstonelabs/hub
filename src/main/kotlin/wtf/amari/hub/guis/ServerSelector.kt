@@ -24,7 +24,7 @@ fun serverSelectorGUI(): GUI {
 
         slot(11, 1) {
             item = item(Material.GRASS_BLOCK) {
-                name = "<#7289DA>&lServerSelector".mm()
+                name = "<#7289DA>&lServer Selector".mm()
                 lore = listOf(
                     " ".mm(),
                     "<#7289DA>Testing".mm(),
