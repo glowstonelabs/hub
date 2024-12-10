@@ -29,7 +29,7 @@ class ItemGiverManager(private val plugin: Plugin) {
     private fun createServerSelector(): ItemStack {
         val serverSelector = ItemStack(Material.COMPASS)
 
-        val config = Hub.instance.config
+        val config = Hub.serverSelectorConfig
         val meta = serverSelector.itemMeta ?: return serverSelector
 
         meta.displayName(config.getString("serverSelector.name")?.mm())

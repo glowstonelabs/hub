@@ -3,11 +3,13 @@ package wtf.amari.hub
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import me.honkling.commando.spigot.SpigotCommandManager
+import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 import wtf.amari.hub.events.AutoAnnouncements
 import wtf.amari.hub.events.PlayerListener
 import wtf.amari.hub.utils.PlaceHolders
 import wtf.amari.hub.utils.fancyLog
+import wtf.amari.hub.utils.loadConfig
 
 /**
  * Main class for the Hub plugin.
@@ -19,6 +21,15 @@ class Hub : JavaPlugin() {
             private set
 
         private val scope = CoroutineScope(Dispatchers.Default)
+
+        lateinit var settingsConfig: FileConfiguration
+            private set
+
+        lateinit var serverSelectorConfig: FileConfiguration
+            private set
+
+        lateinit var langConfig: FileConfiguration
+            private set
     }
 
     private val commandPackages = listOf(
@@ -38,7 +49,7 @@ class Hub : JavaPlugin() {
     }
 
     /**
-     * Initializes the plugin by setting up configuration, registering commands, events, and placeholders.
+     * Initializes the plugin by setting up configurations, commands, events, and placeholders.
      */
     private fun initializePlugin() {
         setupConfig()
@@ -77,13 +88,15 @@ class Hub : JavaPlugin() {
     }
 
     /**
-     * Sets up the configuration by creating the data folder, saving the default config, and reloading the config.
+     * Sets up the configuration files.
      */
     private fun setupConfig() {
         dataFolder.mkdirs()
-        saveDefaultConfig()
-        reloadConfig()
-        fancyLog("Config loaded successfully.", "SUCCESS")
+        settingsConfig = loadConfig(this, "settings.yml")
+        serverSelectorConfig = loadConfig(this, "serverSelector.yml")
+        langConfig = loadConfig(this, "lang.yml")
+        validateConfigs()
+        fancyLog("Configs loaded successfully.", "SUCCESS")
     }
 
     /**
@@ -93,6 +106,28 @@ class Hub : JavaPlugin() {
         server.pluginManager.getPlugin("PlaceholderAPI")?.let {
             PlaceHolders().register()
             fancyLog("PlaceholderAPI placeholders registered successfully.", "SUCCESS")
+        }
+    }
+
+    /**
+     * Validates the configuration files to ensure they contain necessary keys.
+     */
+    private fun validateConfigs() {
+        // Add validation logic for each config file
+        validateConfig(settingsConfig, "settings.yml")
+        validateConfig(serverSelectorConfig, "serverSelector.yml")
+        validateConfig(langConfig, "lang.yml")
+    }
+
+    /**
+     * Validates a specific configuration file.
+     * @param config The configuration file to validate.
+     * @param fileName The name of the configuration file.
+     */
+    private fun validateConfig(config: FileConfiguration, fileName: String) {
+        // Example validation logic
+        if (!config.contains("requiredKey")) {
+            fancyLog("Missing required key in $fileName", "ERROR")
         }
     }
 }

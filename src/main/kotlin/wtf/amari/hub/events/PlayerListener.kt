@@ -1,6 +1,9 @@
 package wtf.amari.hub.events
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.Runnable
 import me.tech.mcchestui.utils.openGUI
 import org.bukkit.Bukkit.broadcast
 import org.bukkit.Bukkit.getScheduler
@@ -32,7 +35,7 @@ class PlayerListener : Listener {
         val player = event.player
         val scheduler = getScheduler()
         val instance = Hub.instance
-        val config = instance.config
+        val config = Hub.langConfig
         val itemGiverManager = ItemGiverManager(Hub.instance)
 
         // Give server selector
@@ -67,7 +70,7 @@ class PlayerListener : Listener {
      */
     @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
-        val config = Hub.instance.config
+        val config = Hub.langConfig
         val quitMessage = config.getString("join-messages.quit")
         event.quitMessage(
             if (quitMessage.isNullOrEmpty()) null else quitMessage.replace("%player%", event.player.name).mm()
@@ -80,9 +83,10 @@ class PlayerListener : Listener {
      */
     @EventHandler
     fun onPlayerDrop(event: PlayerDropItemEvent) {
-        val config = Hub.instance.config
-        if (!config.getBoolean("settings.drop-items")) {
-            config.getString("items.drop-message")?.let { event.player.sendMessage(it.mm()) }
+        val settings = Hub.settingsConfig
+        val messages = Hub.langConfig
+        if (!settings.getBoolean("settings.drop-items")) {
+            messages.getString("items.drop-message")?.let { event.player.sendMessage(it.mm()) }
             event.isCancelled = true
         }
     }
@@ -93,18 +97,10 @@ class PlayerListener : Listener {
      */
     @EventHandler
     fun onRightClick(event: PlayerInteractEvent) {
-        val config = Hub.instance.config
         val player = event.player
         val item = player.inventory.itemInMainHand
         if ((event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) && item.type.name == "COMPASS") {
             player.openGUI(serverSelectorGUI())
         }
-    }
-
-    /**
-     * Clean up resources when the listener is no longer needed.
-     */
-    fun cleanup() {
-        scope.cancel()
     }
 }
