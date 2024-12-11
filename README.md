@@ -31,7 +31,7 @@ Welcome to **Hub Plugin**, a feature-packed plugin designed to elevate your Mine
 
 ## Installation
 
-1. Download the latest release of **Hub Plugin** from the [Releases](https://github.com/YourUsername/HubPlugin/releases) page.
+1. Download the latest release of **Hub Plugin** from the [Releases](https://github.com/glowstonelabs/Hub/releases) page.
 2. Place the `.jar` file in your server's `plugins` folder.
 3. Restart the server to generate configuration files.
 
