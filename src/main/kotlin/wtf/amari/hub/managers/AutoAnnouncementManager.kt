@@ -1,4 +1,4 @@
-package wtf.amari.hub.events
+package wtf.amari.hub.managers
 
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
@@ -9,7 +9,7 @@ import wtf.amari.hub.utils.mm
 /**
  * Handles automatic announcements for the server.
  */
-class AutoAnnouncements {
+class AutoAnnouncementManager {
 
     private val config = Hub.langConfig
 
@@ -29,9 +29,9 @@ class AutoAnnouncements {
      * @throws IllegalArgumentException if the configuration is invalid.
      */
     private fun validateConfig() {
-        require(config.isConfigurationSection("announcements")) { "Announcements section is missing in the config." }
+        require(config.isConfigurationSection("announcements")) { "Missing required key: announcements in lang.yml" }
         announcements.forEach { (category, messages) ->
-            require(messages.isNotEmpty()) { "Category '$category' has no messages." }
+            require(messages.isNotEmpty()) { "Missing required key: announcements.$category in lang.yml" }
         }
     }
 
