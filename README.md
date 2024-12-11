@@ -1,6 +1,8 @@
 # Hub Plugin for Minecraft 1.21.3
 
-Welcome to the **Hub Plugin** project! This plugin is designed to create a smooth, feature-rich, and aesthetically pleasing hub experience for your Minecraft server. Built for Minecraft version **1.21.3**, it ensures compatibility with the latest game updates and provides a modern toolkit for server administrators.
+Welcome to **Hub Plugin**, a feature-packed plugin designed to elevate your Minecraft hub experience! With sleek features, intuitive management tools, and full customization, this plugin is perfect for any server looking to create an engaging and polished hub for players.
+
+> **Note**: This project is under active development. Contributions are encouraged! Feel free to fork or open a pull request.
 
 ---
 
@@ -29,45 +31,88 @@ Welcome to the **Hub Plugin** project! This plugin is designed to create a smoot
 
 ## Installation
 
-1. Download the plugin JAR file from the [Releases](#).
-2. Place the JAR file in your server's `plugins` directory.
-3. Restart your server.
-4. Configure the plugin using the `config.yml` file located in the plugin folder.
+1. Download the latest release of **Hub Plugin** from the [Releases](https://github.com/YourUsername/HubPlugin/releases) page.
+2. Place the `.jar` file in your server's `plugins` folder.
+3. Restart the server to generate configuration files.
 
 ---
 
-## Getting Started
+## Planned Features
 
-### Command Overview
-- Use `/clearchat` to keep chat clean and spam-free.
-- Enable staff commands for managing gamemodes, server behavior, and player interactions.
+- **Server Selector Menu**: Enable players to navigate your network through a fully customizable GUI.
+- **Custom Join Messages**: Welcome players with stylish, configurable messages.
+- **Spawn Management**: Define and manage spawn points effortlessly.
+- **Particle Effects**: Add flair to your hub with animated particles.
+- **Global Chat Formatting**: Style chat messages across your network.
 
-### Server Selector Menu
-- Players can navigate through your network with a customizable and user-friendly GUI menu.
+---
+
+## Commands
+
+| Command         | Description                              | Permission           |
+|-----------------|------------------------------------------|-----------------------|
+| `/clearchat`    | Clears the chat for all players          | `hub.clearchat`      |
+| `/gamemode`     | Switch between gamemodes                | `hub.gamemode`       |
+| `/hub`          | Teleport players to the hub             | `hub.hub`            |
+
+---
+
+## Permissions
+
+| Permission        | Description                              |
+|-------------------|------------------------------------------|
+| `hub.clearchat`   | Access to clear chat for all players.    |
+| `hub.gamemode`    | Allows switching between gamemodes.      |
+| `hub.hub`         | Grants teleportation to the hub.         |
+
+---
+
+## Configuration
+
+Customize all settings in the `config.yml` file:
+
+- **Announcements**: Schedule automated messages for players.
+- **Server Selector**: Configure items, menus, and destinations.
+- **Join Messages**: Define custom messages to welcome players.
+- **Spawn Location**: Set the default spawn point for new and returning players.
 
 ---
 
 ## Contribution
-We welcome contributions to improve this plugin. If you'd like to add features, fix bugs, or enhance existing functionality:
 
-1. Fork the repository.
-2. Create a new branch for your feature or fix.
-3. Submit a pull request with detailed information about your changes.
+We welcome community contributions! If you have suggestions, find bugs, or want to add a feature, feel free to open an issue or submit a pull request.
 
 ---
 
 ## License
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+This project is licensed under the MIT License:
+
+```
+MIT License
+
+Copyright (c) [2024] [Amari]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 
 ---
 
-## Acknowledgments
-Special thanks to the Minecraft development community for inspiration and support.
-
----
-
-## Contact
-For support or inquiries, feel free to contact us:
-- Website: [daisy.cat](https://daisy.cat)
-- GitHub: [fu3i0n](https://github.com/fu3i0n)
+Enjoy creating an incredible hub experience with **Hub Plugin**!
 
