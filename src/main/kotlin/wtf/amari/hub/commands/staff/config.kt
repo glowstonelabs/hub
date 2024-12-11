@@ -10,22 +10,19 @@ package wtf.amari.hub.commands.staff
 
 import me.honkling.commando.common.annotations.Command
 import org.bukkit.entity.Player
-import wtf.amari.hub.Hub
-import wtf.amari.hub.utils.mm
+import wtf.amari.hub.managers.ConfigManager
 
 /**
- * Reloads the plugin's configuration file.
- *
- * @param executor The player executing the command.
+ * Handles the /config command for reloading the plugin's configuration.
  */
-fun reload(executor: Player) {
-    // Reload the plugin's configuration
-    try {
-        Hub.instance.reloadConfig()
-        // Send a confirmation message
-        executor.sendMessage("&aConfig reloaded.".mm())
-    } catch (e: Exception) {
-        // Handle any exceptions that occur during config reload
-        executor.sendMessage("&cFailed to reload config: ${e.message}".mm())
+object ConfigCommand {
+
+    /**
+     * Executes the reload command.
+     *
+     * @param executor The player executing the command.
+     */
+    fun reload(executor: Player) {
+        ConfigManager.reloadConfig(executor)
     }
 }
