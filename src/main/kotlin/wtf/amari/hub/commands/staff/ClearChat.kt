@@ -13,6 +13,7 @@ import me.honkling.commando.common.annotations.Command
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import wtf.amari.hub.Hub
 import wtf.amari.hub.utils.mm
 
 /**
@@ -29,5 +30,6 @@ fun clearChat(sender: CommandSender) {
 
     // Send a confirmation message to all players
     val senderName = if (sender is Player) sender.name else "Console"
-    Bukkit.broadcast("&cChat has been cleared by &e$senderName".mm())
+    val config = Hub.langConfig
+    config.getString("commands.clearchat")?.replace("%player%", sender.name)?.mm()?.let { Bukkit.broadcast(it) }
 }
