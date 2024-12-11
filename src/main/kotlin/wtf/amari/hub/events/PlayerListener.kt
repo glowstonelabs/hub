@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 import wtf.amari.hub.Hub
 import wtf.amari.hub.managers.ItemGiverManager
 import wtf.amari.hub.managers.ServerSelectorManager
+import wtf.amari.hub.managers.SpawnManager
 import wtf.amari.hub.utils.mm
 
 /**
@@ -24,6 +25,7 @@ class PlayerListener : Listener {
 
     private val itemGiverManager = ItemGiverManager(Hub.instance)
     private val serverSelectorManager = ServerSelectorManager()
+    private val spawnManager = SpawnManager()
 
     /**
      * Handles player join events.
@@ -35,11 +37,19 @@ class PlayerListener : Listener {
         val scheduler = getScheduler()
         val instance = Hub.instance
         val config = Hub.langConfig
+        val lobby = spawnManager.getSpawn()
 
         // Validate configuration
         validateConfig(config, "join-messages.join")
         validateConfig(config, "join-messages.firstjoin")
         validateConfig(config, "join-messages.welcome-messages")
+
+        // Force the player to the lobby spawn location
+        if (lobby != null) {
+            player.teleport(lobby)
+        } else {
+            player.sendMessage("&cSpawn location not set.".mm())
+        }
 
         // Give server selector
         itemGiverManager.giveServerSelector(player)

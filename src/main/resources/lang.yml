@@ -30,3 +30,6 @@ announcements:
     - ""
 items:
   drop-message: "&cYou are not allowed to drop items!"
+
+commands:
+  clearchat: "&cChat has been cleared by &e%player%&c."
