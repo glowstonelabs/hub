@@ -95,7 +95,6 @@ class Hub : JavaPlugin() {
         settingsConfig = loadConfig(this, "settings.yml")
         serverSelectorConfig = loadConfig(this, "serverSelector.yml")
         langConfig = loadConfig(this, "lang.yml")
-        validateConfigs()
         fancyLog("Configs loaded successfully.", "SUCCESS")
     }
 
@@ -106,28 +105,6 @@ class Hub : JavaPlugin() {
         server.pluginManager.getPlugin("PlaceholderAPI")?.let {
             PlaceHolders().register()
             fancyLog("PlaceholderAPI placeholders registered successfully.", "SUCCESS")
-        }
-    }
-
-    /**
-     * Validates the configuration files to ensure they contain necessary keys.
-     */
-    private fun validateConfigs() {
-        // Add validation logic for each config file
-        validateConfig(settingsConfig, "settings.yml")
-        validateConfig(serverSelectorConfig, "serverSelector.yml")
-        validateConfig(langConfig, "lang.yml")
-    }
-
-    /**
-     * Validates a specific configuration file.
-     * @param config The configuration file to validate.
-     * @param fileName The name of the configuration file.
-     */
-    private fun validateConfig(config: FileConfiguration, fileName: String) {
-        // Example validation logic
-        if (!config.contains("requiredKey")) {
-            fancyLog("Missing required key in $fileName", "ERROR")
         }
     }
 }
