@@ -7,6 +7,9 @@ import org.bukkit.Bukkit.getConsoleSender
 
 val mm = MiniMessage.miniMessage()
 
+/**
+ * Object containing color codes used in the plugin.
+ */
 object Colors {
     private val colors = mapOf(
         "PRIMARY" to "#3498db",    // Blue
