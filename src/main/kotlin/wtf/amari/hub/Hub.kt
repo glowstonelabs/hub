@@ -5,8 +5,8 @@ import kotlinx.coroutines.Dispatchers
 import me.honkling.commando.spigot.SpigotCommandManager
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.plugin.java.JavaPlugin
-import wtf.amari.hub.events.AutoAnnouncements
 import wtf.amari.hub.events.PlayerListener
+import wtf.amari.hub.managers.AutoAnnouncementManager
 import wtf.amari.hub.utils.PlaceHolders
 import wtf.amari.hub.utils.fancyLog
 import wtf.amari.hub.utils.loadConfig
@@ -56,7 +56,7 @@ class Hub : JavaPlugin() {
         registerCommands()
         registerEvents()
         registerPlaceholders()
-        AutoAnnouncements()
+        AutoAnnouncementManager()
     }
 
     /**
