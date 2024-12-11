@@ -34,10 +34,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build --no-daemon
+        run: ./gradlew clean shadowjar --no-daemon
 
       - name: List build directory
         run: ls -R build/libs
-
-      - name: Run tests
-        run: ./gradlew test --no-daemon

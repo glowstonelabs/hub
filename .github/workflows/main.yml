@@ -1,4 +1,4 @@
-name: like holy
+name: Push Commit Message To Discord
 
 on:
   push:
