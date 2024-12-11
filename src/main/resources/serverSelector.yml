@@ -12,11 +12,35 @@ menu:
 server-1:
   slot: 11
   name: "&b&lServer 1"
-  material: GRASS_BLOCK
+  material: NETHERITE_SWORD
   command: "server server1"
   message: "&aConnecting to Server 1..."
   lore:
     - " "
     - "&7LOREM IP SUM"
+    - " "
+    - "&e&l➜ &eRight-Click"
+
+server-2:
+  slot: 14
+  name: "&b&lServer 2"
+  material: NETHERITE_PICKAXE
+  command: "server server2"
+  message: "&aConnecting to Server 2..."
+  lore:
+    - " "
+    - "&7LOREM IP SUM 2"
+    - " "
+    - "&e&l➜ &eRight-Click"
+
+server-3:
+  slot: 17
+  name: "&b&lServer 3"
+  material: NETHERITE_AXE
+  command: "server server3"
+  message: "&aConnecting to Server 3..."
+  lore:
+    - " "
+    - "&7LOREM IP SUM 3"
     - " "
     - "&e&l➜ &eRight-Click"
