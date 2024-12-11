@@ -7,9 +7,10 @@ import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 import wtf.amari.hub.events.PlayerListener
 import wtf.amari.hub.managers.AutoAnnouncementManager
-import wtf.amari.hub.utils.ConfigManager.loadConfig
+import wtf.amari.hub.managers.ConfigManager
 import wtf.amari.hub.utils.PlaceHolders
 import wtf.amari.hub.utils.fancyLog
+import java.io.File
 
 /**
  * Main class for the Hub plugin.
@@ -23,13 +24,12 @@ class Hub : JavaPlugin() {
         private val scope = CoroutineScope(Dispatchers.Default)
 
         lateinit var settingsConfig: FileConfiguration
-            private set
-
         lateinit var serverSelectorConfig: FileConfiguration
-            private set
-
         lateinit var langConfig: FileConfiguration
-            private set
+
+        lateinit var settingsFile: File
+        lateinit var serverSelectorFile: File
+        lateinit var langFile: File
     }
 
     private val commandPackages = listOf(
@@ -46,6 +46,7 @@ class Hub : JavaPlugin() {
 
     override fun onDisable() {
         fancyLog("Hub plugin has been disabled.", "ERROR")
+        cleanupResources()
     }
 
     /**
@@ -92,9 +93,12 @@ class Hub : JavaPlugin() {
      */
     private fun setupConfig() {
         dataFolder.mkdirs()
-        settingsConfig = loadConfig(this, "settings.yml")
-        serverSelectorConfig = loadConfig(this, "serverSelector.yml")
-        langConfig = loadConfig(this, "lang.yml")
+        settingsFile = File(dataFolder, "settings.yml")
+        settingsConfig = ConfigManager.loadConfig(this, "settings.yml")
+        serverSelectorFile = File(dataFolder, "serverSelector.yml")
+        serverSelectorConfig = ConfigManager.loadConfig(this, "serverSelector.yml")
+        langFile = File(dataFolder, "lang.yml")
+        langConfig = ConfigManager.loadConfig(this, "lang.yml")
         fancyLog("Configs loaded successfully.", "SUCCESS")
     }
 
@@ -106,5 +110,14 @@ class Hub : JavaPlugin() {
             PlaceHolders().register()
             fancyLog("PlaceholderAPI placeholders registered successfully.", "SUCCESS")
         }
+    }
+
+    /**
+     * Cleans up resources when the plugin is disabled.
+     */
+    private fun cleanupResources() {
+        ConfigManager.saveSettingsConfig()
+        ConfigManager.saveServerSelectorConfig()
+        ConfigManager.saveLangConfig()
     }
 }
