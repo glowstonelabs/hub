@@ -1,12 +1,10 @@
 package wtf.amari.hub.events
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.Runnable
 import me.tech.mcchestui.utils.openGUI
 import org.bukkit.Bukkit.broadcast
 import org.bukkit.Bukkit.getScheduler
+import org.bukkit.Material
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
@@ -15,8 +13,8 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import wtf.amari.hub.Hub
-import wtf.amari.hub.guis.serverSelectorGUI
 import wtf.amari.hub.managers.ItemGiverManager
+import wtf.amari.hub.managers.ServerSelectorManager
 import wtf.amari.hub.utils.mm
 
 /**
@@ -24,7 +22,8 @@ import wtf.amari.hub.utils.mm
  */
 class PlayerListener : Listener {
 
-    private val scope = CoroutineScope(Dispatchers.Default + Job())
+    private val itemGiverManager = ItemGiverManager(Hub.instance)
+    private val serverSelectorManager = ServerSelectorManager()
 
     /**
      * Handles player join events.
@@ -36,7 +35,11 @@ class PlayerListener : Listener {
         val scheduler = getScheduler()
         val instance = Hub.instance
         val config = Hub.langConfig
-        val itemGiverManager = ItemGiverManager(Hub.instance)
+
+        // Validate configuration
+        validateConfig(config, "join-messages.join")
+        validateConfig(config, "join-messages.firstjoin")
+        validateConfig(config, "join-messages.welcome-messages")
 
         // Give server selector
         itemGiverManager.giveServerSelector(player)
@@ -85,6 +88,8 @@ class PlayerListener : Listener {
     fun onPlayerDrop(event: PlayerDropItemEvent) {
         val settings = Hub.settingsConfig
         val messages = Hub.langConfig
+        validateConfig(settings, "settings.drop-items")
+        validateConfig(messages, "items.drop-message")
         if (!settings.getBoolean("settings.drop-items")) {
             messages.getString("items.drop-message")?.let { event.player.sendMessage(it.mm()) }
             event.isCancelled = true
@@ -99,8 +104,19 @@ class PlayerListener : Listener {
     fun onRightClick(event: PlayerInteractEvent) {
         val player = event.player
         val item = player.inventory.itemInMainHand
-        if ((event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) && item.type.name == "COMPASS") {
-            player.openGUI(serverSelectorGUI())
+        if ((event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) && item.type == Material.COMPASS) {
+            player.openGUI(serverSelectorManager.createServerSelectorGUI())
         }
+    }
+
+    /**
+     * Validates the configuration to ensure all required keys are present.
+     *
+     * @param config The configuration to validate.
+     * @param key The key to check in the configuration.
+     * @throws IllegalArgumentException if the key is missing.
+     */
+    private fun validateConfig(config: ConfigurationSection, key: String) {
+        require(config.contains(key)) { "Missing required key: $key in ${config.name}.yml" }
     }
 }
