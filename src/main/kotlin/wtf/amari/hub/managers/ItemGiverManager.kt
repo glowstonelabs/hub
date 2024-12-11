@@ -13,13 +13,18 @@ import wtf.amari.hub.utils.mm
  */
 class ItemGiverManager(private val plugin: Plugin) {
 
+    private val serverSelector: ItemStack by lazy { createServerSelector() }
+
+    init {
+        validateConfig()
+    }
+
     /**
      * Gives the server selector item to the target player.
      * @param target The target player.
      */
     fun giveServerSelector(target: Player) {
-        val serverSelector = createServerSelector()
-        target.inventory.setItem(4, serverSelector) // Slot 1 in Minecraft is index 0
+        target.inventory.setItem(4, serverSelector.clone()) // Slot 1 in Minecraft is index 0
     }
 
     /**
@@ -40,5 +45,16 @@ class ItemGiverManager(private val plugin: Plugin) {
         serverSelector.itemMeta = meta
 
         return serverSelector
+    }
+
+    /**
+     * Validates the configuration to ensure all required sections and values are present.
+     *
+     * @throws IllegalArgumentException if the configuration is invalid.
+     */
+    private fun validateConfig() {
+        val config = Hub.serverSelectorConfig
+        require(config.contains("serverSelector.name")) { "Missing required key: serverSelector.name in serverSelector.yml" }
+        require(config.contains("serverSelector.lore")) { "Missing required key: serverSelector.lore in serverSelector.yml" }
     }
 }
