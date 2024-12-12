@@ -1,5 +1,6 @@
 settings:
-  drop-items: false
+  drop-items: false # If true, players will drop their items
+  double-jump: true # If true, players will be able to double jump
   spawn:
     world: world
     x: 0

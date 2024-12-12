@@ -8,10 +8,7 @@ import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
-import org.bukkit.event.player.PlayerDropItemEvent
-import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.event.player.*
 import wtf.amari.hub.Hub
 import wtf.amari.hub.managers.ItemGiverManager
 import wtf.amari.hub.managers.ServerSelectorManager
@@ -116,6 +113,27 @@ class PlayerListener : Listener {
         val item = player.inventory.itemInMainHand
         if ((event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) && item.type == Material.COMPASS) {
             player.openGUI(serverSelectorManager.createServerSelectorGUI())
+        }
+    }
+
+    @EventHandler
+    fun onPlayerMove(event: PlayerMoveEvent) {
+        val player = event.player
+        if (player.isOnGround) {
+            player.allowFlight = true
+        }
+    }
+
+    @EventHandler
+    fun onPlayerToggleFlight(event: PlayerToggleFlightEvent) {
+        val player = event.player
+        val settings = Hub.settingsConfig
+        validateConfig(settings, "settings.double-jump")
+        if (settings.getBoolean("settings.double-jump")) {
+            event.isCancelled = true
+            player.allowFlight = false
+            player.isFlying = false
+            player.velocity = player.location.direction.multiply(1.5).setY(1.0)
         }
     }
 
