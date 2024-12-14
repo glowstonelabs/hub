@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import wtf.amari.hub.Hub
 import wtf.amari.hub.utils.mm
 
+
 /**
  * Changes the executor's gamemode.
  *
@@ -43,6 +44,10 @@ fun gamemode(executor: Player, mode: String, targetName: String?) {
                 return
             }
             target.gameMode = gameMode
+            if (gameMode == GameMode.CREATIVE) {
+                target.allowFlight = true
+                target.isFlying = true
+            }
             executor.sendMessage("&aSet gamemode of &c${target.name} &ato &c${gameMode.name.lowercase()}&a!".mm())
         }
     }.runTask(Hub.instance)

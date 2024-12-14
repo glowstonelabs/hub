@@ -1,5 +1,6 @@
 package wtf.amari.hub.events
 
+import me.tech.mcchestui.GUI
 import me.tech.mcchestui.utils.openGUI
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
@@ -8,37 +9,38 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import wtf.amari.hub.managers.ServerSelectorManager
 import wtf.amari.hub.utils.mm
+import java.util.concurrent.ConcurrentHashMap
 
-/**
- * Listener for handling player right-click events.
- */
 class RightClickListener : Listener {
 
     private val serverSelectorManager = ServerSelectorManager()
-    private val rightClickCooldowns = mutableMapOf<String, Long>()
+    private val rightClickCooldowns = ConcurrentHashMap<String, Long>()
+    private var serverSelectorGUI: GUI? = null
 
-    /**
-     * Handles the PlayerInteractEvent.
-     *
-     * @param event The PlayerInteractEvent.
-     */
+    init {
+        serverSelectorGUI = serverSelectorManager.createServerSelectorGUI()
+    }
+
     @EventHandler
     fun onRightClick(event: PlayerInteractEvent) {
         val player = event.player
         val item = player.inventory.itemInMainHand
 
-        // Check if the action is a right-click with a compass
         if ((event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) && item.type == Material.COMPASS) {
-            // Check for cooldown
             if (isPlayerOnCooldown(player)) {
                 player.sendMessage("&cYou must wait before using this again.".mm())
                 return
             }
 
-            // Open the server selector GUI
             try {
-                player.openGUI(serverSelectorManager.createServerSelectorGUI())
-                // Add player to cooldown map
+                if (serverSelectorGUI == null) {
+                    serverSelectorGUI = serverSelectorManager.createServerSelectorGUI()
+                }
+                player.openGUI(serverSelectorGUI!!)
+                rightClickCooldowns[player.name] = System.currentTimeMillis()
+            } catch (e: IllegalStateException) {
+                serverSelectorGUI = serverSelectorManager.createServerSelectorGUI()
+                player.openGUI(serverSelectorGUI!!)
                 rightClickCooldowns[player.name] = System.currentTimeMillis()
             } catch (e: Exception) {
                 player.sendMessage("&cAn error occurred while opening the server selector. Please try again later.".mm())
@@ -47,14 +49,8 @@ class RightClickListener : Listener {
         }
     }
 
-    /**
-     * Checks if the player is on cooldown.
-     *
-     * @param player The player to check.
-     * @return True if the player is on cooldown, false otherwise.
-     */
     private fun isPlayerOnCooldown(player: org.bukkit.entity.Player): Boolean {
-        val cooldownTime = 2000L // 2 seconds cooldown
+        val cooldownTime = 2000L
         val lastClickTime = rightClickCooldowns[player.name] ?: return false
         return System.currentTimeMillis() - lastClickTime < cooldownTime
     }
