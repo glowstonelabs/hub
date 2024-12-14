@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import me.honkling.commando.spigot.SpigotCommandManager
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.plugin.java.JavaPlugin
-import wtf.amari.hub.events.PlayerListener
+import wtf.amari.hub.events.*
 import wtf.amari.hub.managers.AutoAnnouncementManager
 import wtf.amari.hub.managers.ConfigManager
 import wtf.amari.hub.utils.PlaceHolders
@@ -16,27 +16,6 @@ import java.io.File
  * Main class for the Hub plugin.
  */
 class Hub : JavaPlugin() {
-
-    companion object {
-        lateinit var instance: Hub
-            private set
-
-        private val scope = CoroutineScope(Dispatchers.Default)
-
-        lateinit var settingsConfig: FileConfiguration
-        lateinit var serverSelectorConfig: FileConfiguration
-        lateinit var langConfig: FileConfiguration
-
-        lateinit var settingsFile: File
-        lateinit var serverSelectorFile: File
-        lateinit var langFile: File
-    }
-
-    private val commandPackages = listOf(
-        "wtf.amari.hub.commands"
-    )
-
-    private val listeners = listOf { PlayerListener() }
 
     override fun onEnable() {
         instance = this
@@ -50,7 +29,7 @@ class Hub : JavaPlugin() {
     }
 
     /**
-     * Initializes the plugin by setting up configurations, commands, events, and placeholders.
+     * Initializes the plugin by setting up configurations, registering commands, events, and placeholders.
      */
     private fun initializePlugin() {
         setupConfig()
@@ -61,7 +40,7 @@ class Hub : JavaPlugin() {
     }
 
     /**
-     * Registers commands using the SpigotCommandManager.
+     * Registers plugin commands.
      */
     private fun registerCommands() {
         val commandManager = SpigotCommandManager(this)
@@ -74,7 +53,7 @@ class Hub : JavaPlugin() {
     }
 
     /**
-     * Registers event listeners.
+     * Registers plugin event listeners.
      */
     private fun registerEvents() {
         listeners.forEach { listenerSupplier ->
@@ -89,7 +68,7 @@ class Hub : JavaPlugin() {
     }
 
     /**
-     * Sets up the configuration files.
+     * Sets up the plugin configuration files.
      */
     private fun setupConfig() {
         dataFolder.mkdirs()
@@ -113,11 +92,39 @@ class Hub : JavaPlugin() {
     }
 
     /**
-     * Cleans up resources when the plugin is disabled.
+     * Cleans up resources by saving configuration files.
      */
     private fun cleanupResources() {
         ConfigManager.saveSettingsConfig()
         ConfigManager.saveServerSelectorConfig()
         ConfigManager.saveLangConfig()
     }
+
+    companion object {
+        lateinit var instance: Hub
+            private set
+
+        private val scope = CoroutineScope(Dispatchers.Default)
+
+        lateinit var settingsConfig: FileConfiguration
+        lateinit var serverSelectorConfig: FileConfiguration
+        lateinit var langConfig: FileConfiguration
+
+        lateinit var settingsFile: File
+        lateinit var serverSelectorFile: File
+        lateinit var langFile: File
+    }
+
+    private val commandPackages = listOf(
+        "wtf.amari.hub.commands"
+    )
+
+    private val listeners = listOf(
+        { JoinListener() },
+        { QuitListener() },
+        { DropItemListener() },
+        { RightClickListener() },
+        { MoveListener() },
+        { ToggleFlightListener() }
+    )
 }

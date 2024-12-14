@@ -45,7 +45,7 @@ fun gamemode(executor: Player, mode: String, targetName: String?) {
             target.gameMode = gameMode
             executor.sendMessage("&aSet gamemode of &c${target.name} &ato &c${gameMode.name.lowercase()}&a!".mm())
         }
-    }.runTaskAsynchronously(Hub.instance)
+    }.runTask(Hub.instance)
 }
 
 /**
