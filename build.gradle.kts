@@ -23,7 +23,7 @@ val versions = mapOf(
     "commando" to "b0ff9a152d",
     "mcChestUi" to "1.5.6",
     "placeholderApi" to "2.11.6",
-    "kotlinCoroutines" to "1.10.1",
+    "kotlinCoroutines" to "1.9.0",
     "boostedyaml" to "1.3.7"
 )
 

@@ -1,4 +1,17 @@
 {
+    "windsurf.autocompleteSpeed": "fast",
+    "background.enabled": true,
+    "background.editor": {
+    "useFront": true,
+    "style": {
+      "background-position": "100% 100%",
+      "background-size": "auto",
+      "opacity": 0.1
+    },
+    // Local images can be dragged into the browser to quickly get the file protocol address from the address bar
+    "images": ["file:///C:/Users/amari/Pictures/yuri2.jpg"],
+  }
+}{
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
