@@ -26,7 +26,7 @@ val versions =
         "commando" to "b0ff9a152d",
         "mcChestUi" to "1.5.6",
         "placeholderApi" to "2.11.6",
-        "kotlinCoroutines" to "1.9.0",
+        "kotlinCoroutines" to "1.10.1",
         "boostedyaml" to "1.3.7",
         "ktlint" to "1.5.0",
     )
