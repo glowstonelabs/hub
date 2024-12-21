@@ -13,7 +13,6 @@ import java.io.IOException
  * Manages the configuration operations for the plugin.
  */
 object ConfigManager {
-
     /**
      * Loads a configuration file.
      *
@@ -21,7 +20,10 @@ object ConfigManager {
      * @param fileName The name of the configuration file.
      * @return The loaded configuration file.
      */
-    fun loadConfig(plugin: JavaPlugin, fileName: String): FileConfiguration {
+    fun loadConfig(
+        plugin: JavaPlugin,
+        fileName: String,
+    ): FileConfiguration {
         val file = File(plugin.dataFolder, fileName)
         if (!file.exists()) {
             plugin.saveResource(fileName, false)

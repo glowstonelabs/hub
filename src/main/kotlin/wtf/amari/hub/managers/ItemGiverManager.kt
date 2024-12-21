@@ -11,8 +11,9 @@ import wtf.amari.hub.utils.mm
  * Manager for giving items to players.
  * @param plugin The plugin instance.
  */
-class ItemGiverManager(private val plugin: Plugin) {
-
+class ItemGiverManager(
+    private val plugin: Plugin,
+) {
     private val serverSelector: ItemStack by lazy { createServerSelector() }
 
     init {

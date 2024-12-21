@@ -2,7 +2,7 @@
     "spawn",
     "lobby",
     description = "Goes to the lobby spawn location",
-    usage = "Invalid usage. /spawn"
+    usage = "Invalid usage. /spawn",
 )
 
 package wtf.amari.hub.commands.general

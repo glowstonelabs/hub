@@ -11,7 +11,6 @@ import wtf.amari.hub.utils.mm
  * Listener for handling player drop item events.
  */
 class DropItemListener : Listener {
-
     private val dropItemManager = DropItemManager(Hub.instance)
 
     /**

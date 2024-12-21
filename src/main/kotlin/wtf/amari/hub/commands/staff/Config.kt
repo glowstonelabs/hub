@@ -3,7 +3,7 @@
     description = "Reloads the configuration file.",
     usage = "Invalid usage. /config reload",
     permission = "hub.staff.config",
-    permissionMessage = "You need hub.staff.config to do that!"
+    permissionMessage = "You need hub.staff.config to do that!",
 )
 
 package wtf.amari.hub.commands.staff

@@ -10,7 +10,6 @@ import wtf.amari.hub.managers.events.MoveManager
  * Listener for handling player movement events.
  */
 class MoveListener : Listener {
-
     private val moveManager = MoveManager(Hub.instance)
 
     /**

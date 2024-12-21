@@ -9,7 +9,6 @@ import wtf.amari.hub.Hub
  * Manages the spawn location operations for the plugin.
  */
 class SpawnManager {
-
     private val config: FileConfiguration = Hub.settingsConfig
 
     /**

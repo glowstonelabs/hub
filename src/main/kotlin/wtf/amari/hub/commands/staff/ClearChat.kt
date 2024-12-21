@@ -4,7 +4,7 @@
     description = "Clears the chat",
     usage = "Invalid usage. /clearchat",
     permission = "hub.staff.clearchat",
-    permissionMessage = "You need hub.staff.clearchat to do that!"
+    permissionMessage = "You need hub.staff.clearchat to do that!",
 )
 
 package wtf.amari.hub.commands.staff
@@ -31,5 +31,9 @@ fun clearChat(sender: CommandSender) {
     // Send a confirmation message to all players
     val senderName = if (sender is Player) sender.name else "Console"
     val config = Hub.langConfig
-    config.getString("commands.clearchat")?.replace("%player%", sender.name)?.mm()?.let { Bukkit.broadcast(it) }
+    config
+        .getString("commands.clearchat")
+        ?.replace("%player%", sender.name)
+        ?.mm()
+        ?.let { Bukkit.broadcast(it) }
 }

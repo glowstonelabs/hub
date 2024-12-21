@@ -13,8 +13,9 @@ import wtf.amari.hub.utils.mm
  *
  * @param plugin The instance of the Hub plugin.
  */
-class JoinManager(private val plugin: Hub) {
-
+class JoinManager(
+    private val plugin: Hub,
+) {
     private val itemGiverManager = ItemGiverManager(plugin)
     private val spawnManager = SpawnManager()
     private val joinCooldowns = mutableMapOf<String, Long>()
@@ -56,19 +57,27 @@ class JoinManager(private val plugin: Hub) {
 
         // Handle first join message
         if (!player.hasPlayedBefore()) {
-            scheduler.runTaskLater(plugin, Runnable {
-                config.getString("join-messages.firstjoin")?.let {
-                    Bukkit.broadcast(it.replace("%player%", player.name).mm())
-                }
-            }, 20L)
+            scheduler.runTaskLater(
+                plugin,
+                Runnable {
+                    config.getString("join-messages.firstjoin")?.let {
+                        Bukkit.broadcast(it.replace("%player%", player.name).mm())
+                    }
+                },
+                20L,
+            )
         }
 
         // Send welcome messages
-        scheduler.runTaskLater(plugin, Runnable {
-            config.getStringList("join-messages.welcome-messages").forEach { message ->
-                player.sendMessage(message.mm())
-            }
-        }, 20L)
+        scheduler.runTaskLater(
+            plugin,
+            Runnable {
+                config.getStringList("join-messages.welcome-messages").forEach { message ->
+                    player.sendMessage(message.mm())
+                }
+            },
+            20L,
+        )
 
         // Add player to cooldown map
         joinCooldowns[player.name] = System.currentTimeMillis()
@@ -81,7 +90,10 @@ class JoinManager(private val plugin: Hub) {
      * @param key The key to check for existence.
      * @throws IllegalArgumentException if the key is missing in the configuration.
      */
-    private fun validateConfig(config: ConfigurationSection, key: String) {
+    private fun validateConfig(
+        config: ConfigurationSection,
+        key: String,
+    ) {
         require(config.contains(key)) { "Missing required key: $key in ${config.name}.yml" }
     }
 

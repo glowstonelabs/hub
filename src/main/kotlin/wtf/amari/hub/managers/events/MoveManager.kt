@@ -9,8 +9,9 @@ import wtf.amari.hub.Hub
  *
  * @param plugin The instance of the Hub plugin.
  */
-class MoveManager(private val plugin: Hub) {
-
+class MoveManager(
+    private val plugin: Hub,
+) {
     /**
      * Handles player movement logic.
      *
@@ -40,7 +41,10 @@ class MoveManager(private val plugin: Hub) {
      * @param key The key to check for existence.
      * @throws IllegalArgumentException if the key is missing in the configuration.
      */
-    private fun validateConfig(config: ConfigurationSection, key: String) {
+    private fun validateConfig(
+        config: ConfigurationSection,
+        key: String,
+    ) {
         require(config.contains(key)) { "Missing required key: $key in ${config.name}.yml" }
     }
 }

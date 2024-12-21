@@ -3,7 +3,7 @@
     description = "Changes Gamemode.",
     usage = "Invalid usage. /gamemode (adventure|creative|spectator|survival) [player]",
     permission = "hub.staff.gamemode",
-    permissionMessage = "You need hub.staff.gamemode to do that!"
+    permissionMessage = "You need hub.staff.gamemode to do that!",
 )
 
 package wtf.amari.hub.commands.staff
@@ -16,14 +16,16 @@ import org.bukkit.scheduler.BukkitRunnable
 import wtf.amari.hub.Hub
 import wtf.amari.hub.utils.mm
 
-
 /**
  * Changes the executor's gamemode.
  *
  * @param executor The player executing the command.
  * @param mode The desired gamemode.
  */
-fun gamemode(executor: Player, mode: String) {
+fun gamemode(
+    executor: Player,
+    mode: String,
+) {
     gamemode(executor, mode, null)
 }
 
@@ -34,7 +36,11 @@ fun gamemode(executor: Player, mode: String) {
  * @param mode The desired gamemode.
  * @param targetName The name of the target player.
  */
-fun gamemode(executor: Player, mode: String, targetName: String?) {
+fun gamemode(
+    executor: Player,
+    mode: String,
+    targetName: String?,
+) {
     object : BukkitRunnable() {
         override fun run() {
             val target = targetName?.let { Bukkit.getPlayer(it) } ?: executor
@@ -59,12 +65,11 @@ fun gamemode(executor: Player, mode: String, targetName: String?) {
  * @param mode The desired gamemode as a string.
  * @return The corresponding GameMode enum or null if invalid.
  */
-private fun getGameMode(mode: String): GameMode? {
-    return when (mode.lowercase()) {
+private fun getGameMode(mode: String): GameMode? =
+    when (mode.lowercase()) {
         "adventure", "a" -> GameMode.ADVENTURE
         "creative", "c" -> GameMode.CREATIVE
         "spectator", "sp" -> GameMode.SPECTATOR
         "survival", "s" -> GameMode.SURVIVAL
         else -> null
     }
-}

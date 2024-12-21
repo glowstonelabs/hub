@@ -10,8 +10,9 @@ import wtf.amari.hub.utils.mm
  *
  * @param plugin The instance of the Hub plugin.
  */
-class QuitManager(private val plugin: Hub) {
-
+class QuitManager(
+    private val plugin: Hub,
+) {
     /**
      * Handles player quit logic.
      *
@@ -25,7 +26,7 @@ class QuitManager(private val plugin: Hub) {
 
         val quitMessage = config.getString("join-messages.quit")
         event.quitMessage(
-            if (quitMessage.isNullOrEmpty()) null else quitMessage.replace("%player%", event.player.name).mm()
+            if (quitMessage.isNullOrEmpty()) null else quitMessage.replace("%player%", event.player.name).mm(),
         )
     }
 
@@ -36,7 +37,10 @@ class QuitManager(private val plugin: Hub) {
      * @param key The key to check for existence.
      * @throws IllegalArgumentException if the key is missing in the configuration.
      */
-    private fun validateConfig(config: ConfigurationSection, key: String) {
+    private fun validateConfig(
+        config: ConfigurationSection,
+        key: String,
+    ) {
         require(config.contains(key)) { "Missing required key: $key in ${config.name}.yml" }
     }
 }

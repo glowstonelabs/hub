@@ -9,8 +9,9 @@ import wtf.amari.hub.Hub
  *
  * @param plugin The instance of the Hub plugin.
  */
-class ToggleFlightManager(private val plugin: Hub) {
-
+class ToggleFlightManager(
+    private val plugin: Hub,
+) {
     /**
      * Handles player flight toggle logic.
      *
@@ -29,7 +30,10 @@ class ToggleFlightManager(private val plugin: Hub) {
             event.isCancelled = true
             player.allowFlight = false
             player.isFlying = false
-            player.velocity = player.location.direction.multiply(1.5).setY(1.0)
+            player.velocity =
+                player.location.direction
+                    .multiply(1.5)
+                    .setY(1.0)
         }
     }
 
@@ -40,7 +44,10 @@ class ToggleFlightManager(private val plugin: Hub) {
      * @param key The key to check for existence.
      * @throws IllegalArgumentException if the key is missing in the configuration.
      */
-    private fun validateConfig(config: ConfigurationSection, key: String) {
+    private fun validateConfig(
+        config: ConfigurationSection,
+        key: String,
+    ) {
         require(config.contains(key)) { "Missing required key: $key in ${config.name}.yml" }
     }
 }

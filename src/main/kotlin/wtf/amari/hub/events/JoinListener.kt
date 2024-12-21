@@ -10,7 +10,6 @@ import wtf.amari.hub.managers.events.JoinManager
  * Listener for handling player join events.
  */
 class JoinListener : Listener {
-
     private val joinManager = JoinManager(Hub.instance)
 
     /**

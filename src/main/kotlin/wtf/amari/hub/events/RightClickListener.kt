@@ -12,7 +12,6 @@ import wtf.amari.hub.utils.mm
 import java.util.concurrent.ConcurrentHashMap
 
 class RightClickListener : Listener {
-
     private val serverSelectorManager = ServerSelectorManager()
     private val rightClickCooldowns = ConcurrentHashMap<String, Long>()
     private var serverSelectorGUI: GUI? = null

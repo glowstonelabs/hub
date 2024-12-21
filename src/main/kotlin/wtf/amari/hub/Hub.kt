@@ -5,7 +5,12 @@ import kotlinx.coroutines.Dispatchers
 import me.honkling.commando.spigot.SpigotCommandManager
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.plugin.java.JavaPlugin
-import wtf.amari.hub.events.*
+import wtf.amari.hub.events.DropItemListener
+import wtf.amari.hub.events.JoinListener
+import wtf.amari.hub.events.MoveListener
+import wtf.amari.hub.events.QuitListener
+import wtf.amari.hub.events.RightClickListener
+import wtf.amari.hub.events.ToggleFlightListener
 import wtf.amari.hub.managers.AutoAnnouncementManager
 import wtf.amari.hub.managers.ConfigManager
 import wtf.amari.hub.utils.PlaceHolders
@@ -16,7 +21,6 @@ import java.io.File
  * Main class for the Hub plugin.
  */
 class Hub : JavaPlugin() {
-
     override fun onEnable() {
         instance = this
         initializePlugin()
@@ -115,16 +119,18 @@ class Hub : JavaPlugin() {
         lateinit var langFile: File
     }
 
-    private val commandPackages = listOf(
-        "wtf.amari.hub.commands"
-    )
+    private val commandPackages =
+        listOf(
+            "wtf.amari.hub.commands",
+        )
 
-    private val listeners = listOf(
-        { JoinListener() },
-        { QuitListener() },
-        { DropItemListener() },
-        { RightClickListener() },
-        { MoveListener() },
-        { ToggleFlightListener() }
-    )
+    private val listeners =
+        listOf(
+            { JoinListener() },
+            { QuitListener() },
+            { DropItemListener() },
+            { RightClickListener() },
+            { MoveListener() },
+            { ToggleFlightListener() },
+        )
 }

@@ -10,7 +10,6 @@ import wtf.amari.hub.utils.mm
  * Handles automatic announcements for the server.
  */
 class AutoAnnouncementManager {
-
     private val config = Hub.langConfig
 
     private val announcements: Map<String, List<String>> =
@@ -62,16 +61,15 @@ class AutoAnnouncementManager {
      * @param announcement The raw announcement string.
      * @return The formatted announcement string.
      */
-    private fun formatAnnouncement(announcement: String): Component {
-        return announcement
+    private fun formatAnnouncement(announcement: String): Component =
+        announcement
             .replace("&r", "<reset>")
             .replace("&n", "<u>") // Handle color/format codes
             .replace(
-                Regex("""[a-zA-Z0-9.-]+(?:\.[a-zA-Z]{2,})(/[a-zA-Z0-9._~-]*)?""")
+                Regex("""[a-zA-Z0-9.-]+(?:\.[a-zA-Z]{2,})(/[a-zA-Z0-9._~-]*)?"""),
             ) { matchResult ->
                 val url = matchResult.value
                 "<click:open_url:'https://$url'><#1d90d5><u>$url</u></click>"
             }.replace("\n", "<br>") // Fix newlines
             .mm()
-    }
 }

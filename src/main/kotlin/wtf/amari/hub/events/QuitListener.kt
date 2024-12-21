@@ -10,7 +10,6 @@ import wtf.amari.hub.managers.events.QuitManager
  * Listener for handling player quit events.
  */
 class QuitListener : Listener {
-
     private val quitManager = QuitManager(Hub.instance)
 
     /**

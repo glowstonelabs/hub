@@ -4,7 +4,7 @@
     description = "Sets the lobby spawn location",
     usage = "Invalid usage. /setlobby",
     permission = "hub.staff.setlobby",
-    permissionMessage = "You need hub.staff.setlobby to do that!"
+    permissionMessage = "You need hub.staff.setlobby to do that!",
 )
 
 package wtf.amari.hub.commands.staff

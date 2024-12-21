@@ -10,7 +10,6 @@ import wtf.amari.hub.managers.events.ToggleFlightManager
  * Listener for handling player flight toggle events.
  */
 class ToggleFlightListener : Listener {
-
     private val toggleFlightManager = ToggleFlightManager(Hub.instance)
 
     /**
